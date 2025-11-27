@@ -16,7 +16,7 @@ export default function Navbar() {
   const [showResults, setShowResults] = useState(false);
 
   const searchRef = useRef(null);
-  const navLinks = ["Home", "Ongoing", "Movies", "Random"];
+  const navLinks = ["", "Ongoing", "Movies", "Random"];
   const navigate = useNavigate();
 
   // Debounced search
@@ -74,7 +74,13 @@ export default function Navbar() {
           </div>
 
           {/* Desktop Menu */}
-          <div className="hidden md:flex items-center space-x-6">
+          <div className="hidden md:flex items-center space-x-4">
+            <button
+                onClick={() => navigate(`/`)}
+                className="hover:text-amber-400 transition-colors duration-200 font-medium ml-8 "
+              >
+                Home
+              </button>
             {navLinks.map((link) => (
               <button
                 key={link}

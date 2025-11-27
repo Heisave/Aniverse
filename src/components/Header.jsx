@@ -4,7 +4,7 @@ import AnimeCard from "./AnimeCard";
 export default function AnimeGrid() {
   const [animes, setAnimes] = useState([]);
   const [page, setPage] = useState(1);
-  const [filter, setFilter] = useState(""); // text search filter
+  const [filter, setFilter] = useState("");
   const [loading, setLoading] = useState(false);
   const [totalPages, setTotalPages] = useState(1);
 
@@ -19,10 +19,11 @@ export default function AnimeGrid() {
           (page - 1) * PAGE_LIMIT
         }${query}`
       );
+
       const data = await res.json();
       setAnimes(data.data);
-      // estimate total pages if total count is provided
-      const total = data.meta?.count || PAGE_LIMIT * 10; // fallback if count not provided
+
+      const total = data.meta?.count || PAGE_LIMIT * 10;
       setTotalPages(Math.ceil(total / PAGE_LIMIT));
     } catch (err) {
       console.error(err);
@@ -36,26 +37,27 @@ export default function AnimeGrid() {
   }, [page, filter]);
 
   return (
-    <div className="max-w-7xl mx-auto px-4 py-8">
-      {/* Filter/Search */}
-      <div className="flex justify-between items-center mb-6">
+    <div className="max-w-7xl mx-auto px-4 py-10">
+
+      {/* Search */}
+      <div className="mb-8">
         <input
           type="text"
           placeholder="Search anime..."
           value={filter}
           onChange={(e) => {
             setFilter(e.target.value);
-            setPage(1); // reset to first page on filter change
+            setPage(1);
           }}
-          className="px-3 py-2 rounded-md bg-zinc-800 text-white focus:outline-none focus:ring-2 focus:ring-amber-400 w-full sm:w-64"
+          className="w-full sm:w-72 px-4 py-2 bg-zinc-900 text-white rounded-md focus:ring-2 focus:ring-amber-500 outline-none"
         />
       </div>
 
-      {/* Anime Grid */}
+      {/* Grid */}
       {loading ? (
-        <p className="text-white text-center py-20">Loading...</p>
+        <p className="text-center text-white py-20">Loading...</p>
       ) : (
-        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
           {animes.map((anime) => (
             <AnimeCard key={anime.id} anime={anime} />
           ))}
@@ -63,7 +65,7 @@ export default function AnimeGrid() {
       )}
 
       {/* Pagination */}
-      <div className="flex justify-center items-center mt-8 space-x-4">
+      <div className="flex justify-center items-center mt-10 gap-4">
         <button
           onClick={() => setPage((p) => Math.max(p - 1, 1))}
           disabled={page === 1}
@@ -71,13 +73,13 @@ export default function AnimeGrid() {
             page === 1
               ? "bg-zinc-700 cursor-not-allowed"
               : "bg-amber-500 hover:bg-amber-400"
-          } text-zinc-900 transition`}
+          }`}
         >
-          Previous
+          Prev
         </button>
-        <span className="text-white">
-          Page {page} of {totalPages}
-        </span>
+
+        <span className="text-white">Page {page} / {totalPages}</span>
+
         <button
           onClick={() => setPage((p) => Math.min(p + 1, totalPages))}
           disabled={page === totalPages}
@@ -85,7 +87,7 @@ export default function AnimeGrid() {
             page === totalPages
               ? "bg-zinc-700 cursor-not-allowed"
               : "bg-amber-500 hover:bg-amber-400"
-          } text-zinc-900 transition`}
+          }`}
         >
           Next
         </button>
@@ -93,4 +95,3 @@ export default function AnimeGrid() {
     </div>
   );
 }
-

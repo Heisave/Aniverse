@@ -1,30 +1,33 @@
 import React from "react";
 
 export default function AnimeCard({ anime }) {
-  const { canonicalTitle, synopsis, posterImage, episodeCount, ageRating } =
-    anime.attributes;
+  const { canonicalTitle, posterImage, episodeCount } = anime.attributes;
 
   return (
-    <div className="bg-zinc-800 rounded-lg overflow-hidden shadow-lg hover:scale-105 transform transition duration-300">
+    <div className="group relative bg-zinc-900 rounded-xl overflow-hidden shadow-xl hover:shadow-amber-500/20 transition-all duration-300">
       {/* Poster */}
-      <img
-        src={posterImage?.medium || posterImage?.tiny}
-        alt={canonicalTitle}
-        className="w-full h-64 object-cover"
-      />
+      <div className="relative">
+        <img
+          src={posterImage?.large || posterImage?.medium}
+          alt={canonicalTitle}
+          className="w-full h-72 object-cover group-hover:scale-105 transition duration-300"
+        />
 
-      {/* Content */}
-      <div className="p-4">
-        <h2 className="text-white text-lg font-bold truncate">{canonicalTitle}</h2>
-        <p className="text-gray-400 text-sm mt-1 line-clamp-3">{synopsis}</p>
+        {/* Gradient Overlay */}
+        <div className="absolute inset-0 bg-gradient-to-t from-zinc-950/90 via-zinc-950/40 to-transparent"></div>
 
-        <div className="flex justify-between items-center mt-3 text-gray-300 text-sm">
-          <span>{episodeCount ? `${episodeCount} eps` : "Unknown"} </span>
-          <span>{ageRating || "All Ages"}</span>
-        </div>
+        {/* Title on Image */}
+        <h2 className="absolute bottom-3 left-3 right-3 text-lg font-bold text-white drop-shadow-md line-clamp-2">
+          {canonicalTitle}
+        </h2>
+      </div>
 
-        <button className="mt-3 w-full bg-amber-500 hover:bg-amber-400 text-zinc-900 font-semibold py-2 rounded transition-colors">
-          Watch Now
+      {/* Bottom Section */}
+      <div className="p-4 flex items-center justify-between text-gray-300 text-sm">
+        <span>{episodeCount ? `${episodeCount} eps` : "?? eps"}</span>
+
+        <button className="bg-amber-500 hover:bg-amber-400 text-zinc-950 font-semibold px-3 py-1 rounded-md text-sm transition">
+          Watch
         </button>
       </div>
     </div>
