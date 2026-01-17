@@ -34,29 +34,33 @@ export default function AnimeGrid() {
     }
   };
 
+  // fetch when page or filter changes
   useEffect(() => {
     fetchAnimes(page, filter);
   }, [page, filter]);
 
+  // reset page ONLY when filter changes
+  useEffect(() => {
+    setPage(1);
+  }, [filter]);
+
   return (
     <div className="relative min-h-screen bg-zinc-950 text-white">
-      {/* Navbar */}
       <Navbar />
 
       {/* Fixed Search Bar */}
       <div className="fixed top-[64px] left-0 right-0 z-50 bg-zinc-950 px-4 py-4 shadow-md">
         <div className="max-w-7xl mx-auto">
-          <SearchBar onSearch={(text) => { setFilter(text); setPage(1); }} />
+          <SearchBar onSearch={(text) => setFilter(text)} />
         </div>
       </div>
 
       {/* Main content */}
       <div className="max-w-7xl mx-auto px-4 pt-[140px]">
-        {/* Grid */}
         {loading ? (
           <p className="text-center py-20">Loading...</p>
         ) : (
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
+          <div className="grid grid-cols-4 gap-2 mt-6">
             {animes.map((anime) => (
               <AnimeCard key={anime.id} anime={anime} />
             ))}
@@ -64,30 +68,32 @@ export default function AnimeGrid() {
         )}
 
         {/* Pagination */}
-        <div className="flex justify-center items-center mt-10 gap-4">
+        <div className="flex items-center justify-center mt-6 gap-2 text-xs">
           <button
+            type="button"
             onClick={() => setPage((p) => Math.max(p - 1, 1))}
             disabled={page === 1}
-            className={`px-4 py-2 rounded-md font-semibold ${
+            className={`px-2 py-1 rounded ${
               page === 1
-                ? "bg-zinc-700 cursor-not-allowed"
-                : "bg-amber-500 hover:bg-amber-400"
+                ? "bg-zinc-700 text-gray-400"
+                : "bg-amber-500 text-zinc-950"
             }`}
           >
             Prev
           </button>
 
-          <span className="text-white">
-            Page {page} / {totalPages}
+          <span className="text-gray-400">
+            {page}/{totalPages}
           </span>
 
           <button
+            type="button"
             onClick={() => setPage((p) => Math.min(p + 1, totalPages))}
             disabled={page === totalPages}
-            className={`px-4 py-2 rounded-md font-semibold ${
+            className={`px-2 py-1 rounded ${
               page === totalPages
-                ? "bg-zinc-700 cursor-not-allowed"
-                : "bg-amber-500 hover:bg-amber-400"
+                ? "bg-zinc-700 text-gray-400"
+                : "bg-amber-500 text-zinc-950"
             }`}
           >
             Next

@@ -31,7 +31,6 @@ export default function Ongoing() {
 
   return (
     <div className="relative min-h-screen bg-zinc-950 text-white">
-      {/* Navbar */}
       <Navbar />
 
       {/* Fixed Search Bar below Navbar */}
@@ -50,7 +49,7 @@ export default function Ongoing() {
         ) : ongoing.length === 0 ? (
           <p className="text-gray-400 text-center py-20">No results found</p>
         ) : (
-          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-6 mt-6">
+          <div className="grid grid-cols-4 gap-2 mt-6">
             {ongoing.map((anime) => (
               <AnimeCard key={anime.id} anime={anime} />
             ))}
