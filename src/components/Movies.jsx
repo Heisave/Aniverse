@@ -7,17 +7,24 @@ export default function Movies() {
   const [movies, setMovies] = useState([]);
   const [loading, setLoading] = useState(false);
   const [query, setQuery] = useState("");
-
-  const fetchMovies = async (search = "") => {
+  const [page, setPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
+  const PAGE_LIMIT = 20;
+  const fetchMovies = async () => {
     setLoading(true);
     try {
-      const url = search
-        ? `https://kitsu.io/api/edge/anime?filter[text]=${search}&filter[subtype]=movie`
-        : `https://kitsu.io/api/edge/anime?filter[subtype]=movie&page[limit]=20`;
+       const offset = (page - 1) * PAGE_LIMIT;
+     const url = query
+  ? `https://kitsu.io/api/edge/anime?filter[text]=${search}&filter[subtype]=movie&page[limit]=${PAGE_LIMIT}&page[offset]=${offset}`
+  : `https://kitsu.io/api/edge/anime?filter[subtype]=movie&page[limit]=${PAGE_LIMIT}&page[offset]=${offset}`;
+
+
 
       const res = await fetch(url);
       const data = await res.json();
       setMovies(data.data);
+      const total = data.meta?.count || 0;
+      setTotalPages(Math.ceil(total / 20));
     } catch (err) {
       console.error(err);
     } finally {
@@ -26,8 +33,8 @@ export default function Movies() {
   };
 
   useEffect(() => {
-    fetchMovies(query);
-  }, [query]);
+    fetchMovies();
+  }, [query, page]);
 
   return (
     <div className="relative min-h-screen bg-zinc-950 text-white">
@@ -56,6 +63,27 @@ export default function Movies() {
                      ))}
                    </div>
         )}
+      </div>
+      <div className="flex items-center justify-center mt-6 gap-2 text-xs">
+        <button
+          onClick={() => setPage((p) => Math.max(p - 1, 1))}
+          disabled={page === 1}
+          className={page === 1 ? "bg-zinc-700 text-gray-400 px-2 py-1 rounded" : "bg-amber-500 text-zinc-950 px-2 py-1 rounded"}
+        >
+          Prev
+        </button>
+
+        <span className="text-gray-400">
+          {page}/{totalPages}
+        </span>
+
+        <button
+          onClick={() => setPage((p) => Math.min(p + 1, totalPages))}
+          disabled={page === totalPages}
+          className={page === totalPages ? "bg-zinc-700 text-gray-400 px-2 py-1 rounded" : "bg-amber-500 text-zinc-950 px-2 py-1 rounded"}
+        >
+          Next
+        </button>
       </div>
     </div>
   );

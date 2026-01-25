@@ -49,7 +49,7 @@ export default function AnimeGrid() {
       <Navbar />
 
       {/* Fixed Search Bar */}
-      <div className="fixed top-[64px] left-0 right-0 z-50 bg-zinc-950 px-4 py-4 shadow-md">
+      <div className="fixed top-16 left-0 right-0 z-50 bg-zinc-950 px-4 py-4 shadow-md">
         <div className="max-w-7xl mx-auto">
           <SearchBar onSearch={(text) => setFilter(text)} />
         </div>
