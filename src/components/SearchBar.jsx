@@ -33,8 +33,6 @@ export default function SearchBar({ onSearch }) {
           rounded-xl
           px-12
           py-3
-          border-2 border-transparent
-          shadow-inner shadow-black/50
           focus:border-amber-400
           focus:ring-2 focus:ring-amber-400
           focus:ring-opacity-50
