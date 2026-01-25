@@ -9,7 +9,7 @@ export default function Movies() {
   const [query, setQuery] = useState("");
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
-  const PAGE_LIMIT = 30;
+  const PAGE_LIMIT = 20;
   const fetchMovies = async () => {
     setLoading(true);
     try {
@@ -22,7 +22,7 @@ export default function Movies() {
 
       const res = await fetch(url);
       const data = await res.json();
-setMovies(data.data.slice(0, 20));
+      setMovies(data.data);
       const total = data.meta?.count || 0;
       setTotalPages(Math.ceil(total / 20));
     } catch (err) {
@@ -64,27 +64,38 @@ setMovies(data.data.slice(0, 20));
                    </div>
         )}
       </div>
-      <div className="flex items-center justify-center mt-6 gap-2 text-xs">
-        <button
-          onClick={() => setPage((p) => Math.max(p - 1, 1))}
-          disabled={page === 1}
-          className={page === 1 ? "bg-zinc-700 text-gray-400 px-2 py-1 rounded" : "bg-amber-500 text-zinc-950 px-2 py-1 rounded"}
-        >
-          Prev
-        </button>
+     <div className="flex items-center justify-center gap-6 py-10 text-sm">
+  <button
+    onClick={() => setPage(p => Math.max(p - 1, 1))}
+    disabled={page === 1}
+    className="px-4 py-2 rounded-md font-medium
+               bg-zinc-800 text-white
+               hover:bg-zinc-700
+               disabled:bg-zinc-900 disabled:text-zinc-500
+               disabled:cursor-not-allowed
+               transition"
+  >
+    ← Prev
+  </button>
 
-        <span className="text-gray-400">
-          {page}/{totalPages}
-        </span>
+  <span className="min-w-[64px] text-center text-zinc-400">
+    {page} / {totalPages}
+  </span>
 
-        <button
-          onClick={() => setPage((p) => Math.min(p + 1, totalPages))}
-          disabled={page === totalPages}
-          className={page === totalPages ? "bg-zinc-700 text-gray-400 px-2 py-1 rounded" : "bg-amber-500 text-zinc-950 px-2 py-1 rounded"}
-        >
-          Next
-        </button>
-      </div>
+  <button
+    onClick={() => setPage(p => Math.min(p + 1, totalPages))}
+    disabled={page === totalPages}
+    className="px-4 py-2 rounded-md font-medium
+               bg-zinc-800 text-white
+               hover:bg-zinc-700
+               disabled:bg-zinc-900 disabled:text-zinc-500
+               disabled:cursor-not-allowed
+               transition"
+  >
+    Next →
+  </button>
+</div>
+
     </div>
   );
 }

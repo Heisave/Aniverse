@@ -64,27 +64,38 @@ export default function Ongoing() {
         )}
       </div>
 
-      <div className="flex items-center justify-center mt-6 gap-2 text-xs">
-        <button
-          onClick={() => setPage((p) => Math.max(p - 1, 1))}
-          disabled={page === 1}
-          className={page === 1 ? "bg-zinc-700 text-gray-400 px-2 py-1 rounded" : "bg-amber-500 text-zinc-950 px-2 py-1 rounded"}
-        >
-          Prev
-        </button>
+     <div className="flex items-center justify-center gap-6 py-10 text-sm">
+  <button
+    onClick={() => setPage(p => Math.max(p - 1, 1))}
+    disabled={page === 1}
+    className="px-4 py-2 rounded-md font-medium
+               bg-zinc-800 text-white
+               hover:bg-zinc-700
+               disabled:bg-zinc-900 disabled:text-zinc-500
+               disabled:cursor-not-allowed
+               transition"
+  >
+    ← Prev
+  </button>
 
-        <span className="text-gray-400">
-          {page}/{totalPages}
-        </span>
+  <span className="min-w-[64px] text-center text-zinc-400">
+    {page} / {totalPages}
+  </span>
 
-        <button
-          onClick={() => setPage((p) => Math.min(p + 1, totalPages))}
-          disabled={page === totalPages}
-          className={page === totalPages ? "bg-zinc-700 text-gray-400 px-2 py-1 rounded" : "bg-amber-500 text-zinc-950 px-2 py-1 rounded"}
-        >
-          Next
-        </button>
-      </div>
+  <button
+    onClick={() => setPage(p => Math.min(p + 1, totalPages))}
+    disabled={page === totalPages}
+    className="px-4 py-2 rounded-md font-medium
+               bg-zinc-800 text-white
+               hover:bg-zinc-700
+               disabled:bg-zinc-900 disabled:text-zinc-500
+               disabled:cursor-not-allowed
+               transition"
+  >
+    Next →
+  </button>
+</div>
+
     </div>
   );
 }
