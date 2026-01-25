@@ -9,20 +9,20 @@ export default function Movies() {
   const [query, setQuery] = useState("");
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
-  const PAGE_LIMIT = 20;
+  const PAGE_LIMIT = 30;
   const fetchMovies = async () => {
     setLoading(true);
     try {
        const offset = (page - 1) * PAGE_LIMIT;
      const url = query
-  ? `https://kitsu.io/api/edge/anime?filter[text]=${search}&filter[subtype]=movie&page[limit]=${PAGE_LIMIT}&page[offset]=${offset}`
+  ? `https://kitsu.io/api/edge/anime?filter[text]=${query}&filter[subtype]=movie&page[limit]=${PAGE_LIMIT}&page[offset]=${offset}`
   : `https://kitsu.io/api/edge/anime?filter[subtype]=movie&page[limit]=${PAGE_LIMIT}&page[offset]=${offset}`;
 
 
 
       const res = await fetch(url);
       const data = await res.json();
-      setMovies(data.data);
+setMovies(data.data.slice(0, 20));
       const total = data.meta?.count || 0;
       setTotalPages(Math.ceil(total / 20));
     } catch (err) {

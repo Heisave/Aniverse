@@ -10,7 +10,7 @@ export default function AnimeGrid() {
   const [loading, setLoading] = useState(false);
   const [totalPages, setTotalPages] = useState(1);
 
-  const PAGE_LIMIT = 12;
+  const PAGE_LIMIT = 16;
 
   const fetchAnimes = async (page = 1, filterText = "") => {
     setLoading(true);
@@ -60,7 +60,7 @@ export default function AnimeGrid() {
         {loading ? (
           <p className="text-center py-20">Loading...</p>
         ) : (
-          <div className="grid grid-cols-4 gap-2 mt-6">
+          <div className="grid grid-cols-4 grid-rows-4 gap-2 mt-6">
             {animes.map((anime) => (
               <AnimeCard key={anime.id} anime={anime} />
             ))}
